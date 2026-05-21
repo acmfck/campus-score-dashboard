@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: campus-score-dashboard
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start:sqlite
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20

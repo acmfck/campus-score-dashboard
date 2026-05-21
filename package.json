@@ -1,0 +1,19 @@
+{
+  "name": "campus-score-dashboard",
+  "version": "1.0.0",
+  "description": "校园学生成绩数据大屏：Express + SQLite + ECharts",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server-local.js",
+    "start:local": "node server-local.js",
+    "start:sqlite": "node server.js",
+    "init-db": "sqlite3 db/school.db < db/init.sql"
+  },
+  "engines": {
+    "node": ">=20 <21"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  }
+}

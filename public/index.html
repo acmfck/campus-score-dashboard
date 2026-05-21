@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>校园学生成绩数据大屏</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="screen-header">
+    <div>
+      <p class="eyebrow">Campus Academic Performance Center</p>
+      <h1>校园学生成绩数据大屏</h1>
+      <p class="subhead">数据库实时读取 · 后端接口聚合 · 前端可视化展示</p>
+    </div>
+    <div class="header-meta">
+      <span>2023级教学质量监测</span>
+      <strong id="updateTime">数据同步中</strong>
+    </div>
+  </header>
+
+  <main class="dashboard-grid">
+    <section class="panel metric">
+      <span>学生总数</span>
+      <strong id="studentCount">8</strong>
+      <em>覆盖 4 个行政班</em>
+    </section>
+    <section class="panel metric">
+      <span>课程总数</span>
+      <strong id="courseCount">5</strong>
+      <em>核心专业课程</em>
+    </section>
+    <section class="panel metric accent">
+      <span>平均分</span>
+      <strong id="averageScore">82.46</strong>
+      <em>整体水平稳定</em>
+    </section>
+
+    <section class="panel metric">
+      <span>最高分</span>
+      <strong id="highestScore">96</strong>
+      <em>来自计科一班</em>
+    </section>
+    <section class="panel metric">
+      <span>优秀率</span>
+      <strong id="excellentRate">26.79%</strong>
+      <em>90 分及以上</em>
+    </section>
+    <section class="panel metric warning">
+      <span>及格率</span>
+      <strong id="passRate">98.21%</strong>
+      <em>需关注低分学生</em>
+    </section>
+
+    <section class="panel chart-panel">
+      <div class="panel-title">
+        <h2>班级排名</h2>
+        <span>平均分</span>
+      </div>
+      <div class="bars" id="classChart"></div>
+    </section>
+    <section class="panel chart-panel">
+      <div class="panel-title">
+        <h2>课程对比</h2>
+        <span>平均/最高/最低</span>
+      </div>
+      <div class="course-list" id="courseChart"></div>
+    </section>
+    <section class="panel chart-panel">
+      <div class="panel-title">
+        <h2>成绩趋势</h2>
+        <span>月度平均分</span>
+      </div>
+      <svg id="trendChart" viewBox="0 0 420 160" role="img" aria-label="成绩趋势折线图"></svg>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
