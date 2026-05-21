@@ -91,7 +91,7 @@ h1 {
   height: 782px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 188px 188px 330px;
+  grid-template-rows: 110px 160px 160px 286px;
   gap: 22px;
 }
 
@@ -115,11 +115,44 @@ h1 {
   transform: rotate(45deg);
 }
 
+.filter-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 260px;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 22px;
+}
+
+.filter-panel label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.filter-panel select {
+  width: 100%;
+  height: 42px;
+  border: 1px solid rgba(121, 198, 255, 0.42);
+  background: rgba(5, 18, 34, 0.72);
+  color: var(--text);
+  padding: 0 14px;
+  font-size: 15px;
+  outline: none;
+}
+
+.filter-note {
+  color: var(--green);
+  font-size: 16px;
+  text-align: right;
+}
+
 .metric {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: 9px;
 }
 
 .metric span {
@@ -128,7 +161,7 @@ h1 {
 }
 
 .metric strong {
-  font-size: 52px;
+  font-size: 43px;
   line-height: 1;
   color: var(--text);
 }
@@ -219,5 +252,5 @@ h1 {
 
 #trendChart {
   width: 100%;
-  height: 230px;
+  height: 190px;
 }

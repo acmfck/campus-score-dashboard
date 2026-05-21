@@ -13,6 +13,12 @@
 - 接口：REST API
 - 部署：Render Web Service 已上线
 
+## 功能亮点
+
+- 数据规模：32 名学生、8 门课程、3 个月成绩，共 768 条成绩记录。
+- 多维筛选：支持按班级、课程、月份筛选，并联动刷新指标卡和图表。
+- 可验证接口：提供 `/health`、`/api/filters` 和四个统计接口，便于线上检查。
+
 ## 目录结构
 
 ```text
@@ -49,10 +55,19 @@ http://localhost:3000
 本地服务提供首页和以下接口，数据与 `db/init.sql` 中的演示数据统计口径保持一致：
 
 - `GET /health`
+- `GET /api/filters`
 - `GET /api/overview`
 - `GET /api/classes`
 - `GET /api/courses`
 - `GET /api/trends`
+
+统计接口支持可选查询参数：
+
+```text
+className=计科一班
+courseId=2
+month=2026-04
+```
 
 ## Express + SQLite 完整版
 
@@ -74,8 +89,10 @@ SQLite 版本启动时会自动检查 `db/school.db`。如果数据库不存在�
 ```text
 首页：https://campus-score-dashboard.onrender.com/
 健康检查：https://campus-score-dashboard.onrender.com/health
+筛选项：https://campus-score-dashboard.onrender.com/api/filters
 总览接口：https://campus-score-dashboard.onrender.com/api/overview
 班级接口：https://campus-score-dashboard.onrender.com/api/classes
+筛选示例：https://campus-score-dashboard.onrender.com/api/overview?className=计科一班&month=2026-04
 ```
 
 部署步骤：
@@ -92,6 +109,7 @@ SQLite 版本启动时会自动检查 `db/school.db`。如果数据库不存在�
 ```text
 首页：https://你的-render-service.onrender.com/
 健康检查：https://你的-render-service.onrender.com/health
+筛选项：https://你的-render-service.onrender.com/api/filters
 总览接口：https://你的-render-service.onrender.com/api/overview
 班级接口：https://你的-render-service.onrender.com/api/classes
 ```

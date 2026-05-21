@@ -39,6 +39,27 @@ function exec(sql) {
   });
 }
 
+function filterClause(req, alias = "grades") {
+  const conditions = [];
+  const params = [];
+  if (req.query.className) {
+    conditions.push("students.class_name = ?");
+    params.push(req.query.className);
+  }
+  if (req.query.courseId) {
+    conditions.push(`${alias}.course_id = ?`);
+    params.push(req.query.courseId);
+  }
+  if (req.query.month) {
+    conditions.push(`${alias}.exam_month = ?`);
+    params.push(req.query.month);
+  }
+  return {
+    where: conditions.length ? `WHERE ${conditions.join(" AND ")}` : "",
+    params
+  };
+}
+
 async function tableCounts() {
   const [students, courses, grades] = await Promise.all([
     get("SELECT COUNT(*) AS count FROM students"),
@@ -89,8 +110,22 @@ app.get("/health", async (req, res) => {
   }
 });
 
+app.get("/api/filters", async (req, res) => {
+  try {
+    const [classes, courses, months] = await Promise.all([
+      query("SELECT DISTINCT class_name AS className FROM students ORDER BY class_name"),
+      query("SELECT id AS courseId, name AS courseName FROM courses ORDER BY id"),
+      query("SELECT DISTINCT exam_month AS month FROM grades ORDER BY exam_month")
+    ]);
+    res.json({ classes, courses, months });
+  } catch (error) {
+    res.status(500).json({ message: "筛选项查询失败", detail: error.message });
+  }
+});
+
 app.get("/api/overview", async (req, res) => {
   try {
+    const filter = filterClause(req);
     const [overview] = await query(`
       SELECT
         COUNT(DISTINCT students.id) AS studentCount,
@@ -102,20 +137,27 @@ app.get("/api/overview", async (req, res) => {
       FROM grades
       JOIN students ON grades.student_id = students.id
       JOIN courses ON grades.course_id = courses.id
-    `);
+      ${filter.where}
+    `, filter.params);
 
     const [riskClass] = await query(`
       SELECT students.class_name AS className, COUNT(*) AS lowScoreCount
       FROM grades
       JOIN students ON grades.student_id = students.id
-      WHERE grades.score < 60
+      JOIN courses ON grades.course_id = courses.id
+      ${filter.where ? `${filter.where} AND grades.score < 60` : "WHERE grades.score < 60"}
       GROUP BY students.class_name
       ORDER BY lowScoreCount DESC
       LIMIT 1
-    `);
+    `, filter.params);
 
     res.json({
-      ...overview,
+      studentCount: overview.studentCount || 0,
+      courseCount: overview.courseCount || 0,
+      averageScore: overview.averageScore || 0,
+      highestScore: overview.highestScore || 0,
+      excellentRate: overview.excellentRate || 0,
+      passRate: overview.passRate || 0,
       focusClass: riskClass?.className || "暂无",
       updateTime: new Date().toLocaleString("zh-CN")
     });
@@ -126,6 +168,7 @@ app.get("/api/overview", async (req, res) => {
 
 app.get("/api/classes", async (req, res) => {
   try {
+    const filter = filterClause(req);
     const rows = await query(`
       SELECT
         students.class_name AS className,
@@ -134,9 +177,11 @@ app.get("/api/classes", async (req, res) => {
         ROUND(SUM(CASE WHEN grades.score >= 60 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS passRate
       FROM grades
       JOIN students ON grades.student_id = students.id
+      JOIN courses ON grades.course_id = courses.id
+      ${filter.where}
       GROUP BY students.class_name
       ORDER BY avgScore DESC
-    `);
+    `, filter.params);
     res.json(rows);
   } catch (error) {
     res.status(500).json({ message: "班级数据查询失败", detail: error.message });
@@ -145,6 +190,7 @@ app.get("/api/classes", async (req, res) => {
 
 app.get("/api/courses", async (req, res) => {
   try {
+    const filter = filterClause(req);
     const rows = await query(`
       SELECT
         courses.name AS courseName,
@@ -153,9 +199,11 @@ app.get("/api/courses", async (req, res) => {
         MIN(grades.score) AS minScore
       FROM grades
       JOIN courses ON grades.course_id = courses.id
+      JOIN students ON grades.student_id = students.id
+      ${filter.where}
       GROUP BY courses.name
       ORDER BY avgScore DESC
-    `);
+    `, filter.params);
     res.json(rows);
   } catch (error) {
     res.status(500).json({ message: "课程数据查询失败", detail: error.message });
@@ -164,12 +212,16 @@ app.get("/api/courses", async (req, res) => {
 
 app.get("/api/trends", async (req, res) => {
   try {
+    const filter = filterClause(req);
     const rows = await query(`
       SELECT exam_month AS month, ROUND(AVG(score), 2) AS avgScore
       FROM grades
+      JOIN students ON grades.student_id = students.id
+      JOIN courses ON grades.course_id = courses.id
+      ${filter.where}
       GROUP BY exam_month
       ORDER BY exam_month
-    `);
+    `, filter.params);
     res.json(rows);
   } catch (error) {
     res.status(500).json({ message: "趋势数据查询失败", detail: error.message });

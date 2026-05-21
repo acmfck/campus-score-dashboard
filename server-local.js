@@ -5,46 +5,62 @@ const path = require("path");
 const PORT = process.env.PORT || 3000;
 const publicDir = path.join(__dirname, "public");
 
-const students = [
-  { id: 1, name: "张晨", gender: "男", class_name: "计科一班", grade_name: "2023级" },
-  { id: 2, name: "李雨欣", gender: "女", class_name: "计科一班", grade_name: "2023级" },
-  { id: 3, name: "王浩", gender: "男", class_name: "计科二班", grade_name: "2023级" },
-  { id: 4, name: "赵敏", gender: "女", class_name: "计科二班", grade_name: "2023级" },
-  { id: 5, name: "陈宇", gender: "男", class_name: "软件一班", grade_name: "2023级" },
-  { id: 6, name: "周悦", gender: "女", class_name: "软件一班", grade_name: "2023级" },
-  { id: 7, name: "刘思远", gender: "男", class_name: "软件二班", grade_name: "2023级" },
-  { id: 8, name: "何佳怡", gender: "女", class_name: "软件二班", grade_name: "2023级" }
+const names = [
+  ["张晨", "男", "计科一班"], ["李雨欣", "女", "计科一班"], ["王浩", "男", "计科一班"], ["赵敏", "女", "计科一班"],
+  ["陈宇", "男", "计科一班"], ["周悦", "女", "计科一班"], ["刘思远", "男", "计科一班"], ["何佳怡", "女", "计科一班"],
+  ["孙博文", "男", "计科二班"], ["林可欣", "女", "计科二班"], ["郭子航", "男", "计科二班"], ["唐诗雨", "女", "计科二班"],
+  ["马俊杰", "男", "计科二班"], ["罗嘉怡", "女", "计科二班"], ["许明轩", "男", "计科二班"], ["邓雅琪", "女", "计科二班"],
+  ["曹睿", "男", "软件一班"], ["韩若琳", "女", "软件一班"], ["梁启航", "男", "软件一班"], ["谢安琪", "女", "软件一班"],
+  ["朱一鸣", "男", "软件一班"], ["郑嘉宁", "女", "软件一班"], ["沈泽宇", "男", "软件一班"], ["蒋雨桐", "女", "软件一班"],
+  ["程浩然", "男", "软件二班"], ["叶欣然", "女", "软件二班"], ["黄子墨", "男", "软件二班"], ["袁思涵", "女", "软件二班"],
+  ["冯逸凡", "男", "软件二班"], ["秦梦瑶", "女", "软件二班"], ["潘宇辰", "男", "软件二班"], ["顾佳音", "女", "软件二班"]
 ];
+
+const students = names.map(([name, gender, class_name], index) => ({
+  id: index + 1,
+  name,
+  gender,
+  class_name,
+  grade_name: "2023级"
+}));
 
 const courses = [
   { id: 1, name: "高等数学", teacher: "刘老师", credit: 4 },
   { id: 2, name: "程序设计", teacher: "黄老师", credit: 4 },
   { id: 3, name: "大学英语", teacher: "孙老师", credit: 3 },
   { id: 4, name: "数据结构", teacher: "吴老师", credit: 4 },
-  { id: 5, name: "数据库原理", teacher: "郑老师", credit: 3 }
+  { id: 5, name: "数据库原理", teacher: "郑老师", credit: 3 },
+  { id: 6, name: "Web前端开发", teacher: "周老师", credit: 3 },
+  { id: 7, name: "软件工程", teacher: "王老师", credit: 3 },
+  { id: 8, name: "人工智能导论", teacher: "陈老师", credit: 2 }
 ];
 
-const grades = [
-  [1, 1, "2026-02", 88], [1, 2, "2026-02", 94], [1, 3, "2026-02", 81], [1, 4, "2026-02", 90], [1, 5, "2026-02", 87],
-  [2, 1, "2026-02", 91], [2, 2, "2026-02", 96], [2, 3, "2026-02", 89], [2, 4, "2026-02", 92], [2, 5, "2026-02", 90],
-  [3, 1, "2026-02", 76], [3, 2, "2026-02", 82], [3, 3, "2026-02", 73], [3, 4, "2026-02", 79], [3, 5, "2026-02", 78],
-  [4, 1, "2026-02", 69], [4, 2, "2026-02", 74], [4, 3, "2026-02", 66], [4, 4, "2026-02", 71], [4, 5, "2026-02", 70],
-  [5, 1, "2026-02", 85], [5, 2, "2026-02", 87], [5, 3, "2026-02", 80], [5, 4, "2026-02", 84], [5, 5, "2026-02", 89],
-  [6, 1, "2026-02", 58], [6, 2, "2026-02", 63], [6, 3, "2026-02", 72], [6, 4, "2026-02", 61], [6, 5, "2026-02", 67],
-  [7, 1, "2026-02", 82], [7, 2, "2026-02", 86], [7, 3, "2026-02", 76], [7, 4, "2026-02", 83], [7, 5, "2026-02", 85],
-  [8, 1, "2026-02", 93], [8, 2, "2026-02", 95], [8, 3, "2026-02", 91], [8, 4, "2026-02", 94], [8, 5, "2026-02", 92],
-  [1, 1, "2026-03", 90], [2, 1, "2026-03", 93], [3, 1, "2026-03", 79], [4, 1, "2026-03", 72],
-  [5, 1, "2026-03", 88], [6, 1, "2026-03", 65], [7, 1, "2026-03", 84], [8, 1, "2026-03", 95],
-  [1, 1, "2026-04", 92], [2, 1, "2026-04", 94], [3, 1, "2026-04", 81], [4, 1, "2026-04", 75],
-  [5, 1, "2026-04", 90], [6, 1, "2026-04", 68], [7, 1, "2026-04", 86], [8, 1, "2026-04", 96]
-].map(([student_id, course_id, exam_month, score], index) => ({ id: index + 1, student_id, course_id, exam_month, score }));
+const months = ["2026-02", "2026-03", "2026-04"];
+const classBase = { "计科一班": 86, "计科二班": 78, "软件一班": 82, "软件二班": 84 };
+const courseWeight = { 1: -1, 2: 3, 3: -3, 4: 1, 5: 2, 6: 4, 7: 0, 8: 2 };
+const grades = [];
+
+students.forEach((student) => {
+  courses.forEach((course) => {
+    months.forEach((month, monthIndex) => {
+      const raw = classBase[student.class_name] + courseWeight[course.id] + monthIndex * 2 + ((student.id * 7 + course.id * 5 + monthIndex * 3) % 13) - 6;
+      grades.push({
+        id: grades.length + 1,
+        student_id: student.id,
+        course_id: course.id,
+        exam_month: month,
+        score: Math.max(52, Math.min(99, raw))
+      });
+    });
+  });
+});
 
 function round(value) {
   return Math.round(value * 100) / 100;
 }
 
 function avg(items) {
-  return items.reduce((sum, item) => sum + item, 0) / items.length;
+  return items.length ? items.reduce((sum, item) => sum + item, 0) / items.length : 0;
 }
 
 function studentById(id) {
@@ -55,30 +71,42 @@ function courseById(id) {
   return courses.find((item) => item.id === id);
 }
 
-function overview() {
-  const scores = grades.map((item) => item.score);
+function filteredGrades(params) {
+  return grades.filter((item) => {
+    const student = studentById(item.student_id);
+    return (!params.className || student.class_name === params.className)
+      && (!params.courseId || String(item.course_id) === String(params.courseId))
+      && (!params.month || item.exam_month === params.month);
+  });
+}
+
+function overview(params) {
+  const rows = filteredGrades(params);
+  const scores = rows.map((item) => item.score);
+  const studentIds = new Set(rows.map((item) => item.student_id));
+  const courseIds = new Set(rows.map((item) => item.course_id));
   const lowScoresByClass = {};
-  grades.filter((item) => item.score < 60).forEach((item) => {
+  rows.filter((item) => item.score < 60).forEach((item) => {
     const className = studentById(item.student_id).class_name;
     lowScoresByClass[className] = (lowScoresByClass[className] || 0) + 1;
   });
   const focusClass = Object.entries(lowScoresByClass).sort((a, b) => b[1] - a[1])[0]?.[0] || "暂无";
 
   return {
-    studentCount: students.length,
-    courseCount: courses.length,
+    studentCount: studentIds.size,
+    courseCount: courseIds.size,
     averageScore: round(avg(scores)),
-    highestScore: Math.max(...scores),
-    excellentRate: round((grades.filter((item) => item.score >= 90).length * 100) / grades.length),
-    passRate: round((grades.filter((item) => item.score >= 60).length * 100) / grades.length),
+    highestScore: scores.length ? Math.max(...scores) : 0,
+    excellentRate: rows.length ? round((rows.filter((item) => item.score >= 90).length * 100) / rows.length) : 0,
+    passRate: rows.length ? round((rows.filter((item) => item.score >= 60).length * 100) / rows.length) : 0,
     focusClass,
     updateTime: new Date().toLocaleString("zh-CN")
   };
 }
 
-function classesData() {
+function classesData(params) {
   const grouped = {};
-  grades.forEach((item) => {
+  filteredGrades(params).forEach((item) => {
     const className = studentById(item.student_id).class_name;
     grouped[className] ||= [];
     grouped[className].push(item.score);
@@ -94,10 +122,12 @@ function classesData() {
     .sort((a, b) => b.avgScore - a.avgScore);
 }
 
-function coursesData() {
+function coursesData(params) {
+  const rows = filteredGrades(params);
   return courses
     .map((course) => {
-      const scores = grades.filter((item) => item.course_id === course.id).map((item) => item.score);
+      const scores = rows.filter((item) => item.course_id === course.id).map((item) => item.score);
+      if (!scores.length) return null;
       return {
         courseName: course.name,
         avgScore: round(avg(scores)),
@@ -105,12 +135,13 @@ function coursesData() {
         minScore: Math.min(...scores)
       };
     })
+    .filter(Boolean)
     .sort((a, b) => b.avgScore - a.avgScore);
 }
 
-function trendsData() {
+function trendsData(params) {
   const grouped = {};
-  grades.forEach((item) => {
+  filteredGrades(params).forEach((item) => {
     grouped[item.exam_month] ||= [];
     grouped[item.exam_month].push(item.score);
   });
@@ -118,6 +149,14 @@ function trendsData() {
   return Object.entries(grouped)
     .map(([month, scores]) => ({ month, avgScore: round(avg(scores)) }))
     .sort((a, b) => a.month.localeCompare(b.month));
+}
+
+function filtersData() {
+  return {
+    classes: [...new Set(students.map((item) => item.class_name))].sort().map((className) => ({ className })),
+    courses: courses.map((item) => ({ courseId: item.id, courseName: item.name })),
+    months: months.map((month) => ({ month }))
+  };
 }
 
 function sendJson(res, data) {
@@ -150,7 +189,9 @@ function sendStatic(res, urlPath) {
 }
 
 const server = http.createServer((req, res) => {
-  const urlPath = decodeURIComponent(req.url.split("?")[0]);
+  const requestUrl = new URL(req.url, `http://${req.headers.host}`);
+  const urlPath = decodeURIComponent(requestUrl.pathname);
+  const params = Object.fromEntries(requestUrl.searchParams.entries());
   if (urlPath === "/health") {
     return sendJson(res, {
       status: "ok",
@@ -159,10 +200,11 @@ const server = http.createServer((req, res) => {
       timestamp: new Date().toISOString()
     });
   }
-  if (urlPath === "/api/overview") return sendJson(res, overview());
-  if (urlPath === "/api/classes") return sendJson(res, classesData());
-  if (urlPath === "/api/courses") return sendJson(res, coursesData());
-  if (urlPath === "/api/trends") return sendJson(res, trendsData());
+  if (urlPath === "/api/filters") return sendJson(res, filtersData());
+  if (urlPath === "/api/overview") return sendJson(res, overview(params));
+  if (urlPath === "/api/classes") return sendJson(res, classesData(params));
+  if (urlPath === "/api/courses") return sendJson(res, coursesData(params));
+  if (urlPath === "/api/trends") return sendJson(res, trendsData(params));
   return sendStatic(res, urlPath);
 });
 
