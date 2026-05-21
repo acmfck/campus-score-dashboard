@@ -11,7 +11,7 @@
 - 后端：Node.js + Express
 - 数据库：SQLite
 - 接口：REST API
-- 部署：Render Web Service 配置已准备
+- 部署：Render Web Service 已上线
 
 ## 目录结构
 
@@ -67,7 +67,16 @@ SQLite 版本启动时会自动检查 `db/school.db`。如果数据库不存在�
 
 ## Render 部署说明
 
-项目已经补充 `render.yaml`，Render 部署时会使用 Node 20、执行 `npm install`，并通过 `npm run start:sqlite` 启动 Express + SQLite 版本。
+项目已经通过 Render 部署上线，Render 使用 Node 20、执行 `npm install`，并通过 `npm run start:sqlite` 启动 Express + SQLite 版本。
+
+线上地址：
+
+```text
+首页：https://campus-score-dashboard.onrender.com/
+健康检查：https://campus-score-dashboard.onrender.com/health
+总览接口：https://campus-score-dashboard.onrender.com/api/overview
+班级接口：https://campus-score-dashboard.onrender.com/api/classes
+```
 
 部署步骤：
 
@@ -78,7 +87,7 @@ SQLite 版本启动时会自动检查 `db/school.db`。如果数据库不存在�
 5. 启动命令：`npm run start:sqlite`
 6. 健康检查路径：`/health`
 
-部署完成后验证：
+部署完成后验证格式：
 
 ```text
 首页：https://你的-render-service.onrender.com/
@@ -86,5 +95,3 @@ SQLite 版本启动时会自动检查 `db/school.db`。如果数据库不存在�
 总览接口：https://你的-render-service.onrender.com/api/overview
 班级接口：https://你的-render-service.onrender.com/api/classes
 ```
-
-说明：报告中不伪造线上地址。未获得 Render 真实域名前，交付状态标注为“Render 部署配置已完成，等待平台生成正式 URL”。拿到真实 URL 后，只需回填报告脚本中的 `DEPLOY_URL` 并重新生成 PDF。
